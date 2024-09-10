@@ -19,14 +19,14 @@ public:
     MyLinkedList(int val);
     ~MyLinkedList();
     int size();
-    Node const *const start();
-    Node const *const end();
+    Node const *start();
+    Node const *end();
     void push_back(int val);
     int remove(int idx);
     void set(int idx, int val);
     int get(int idx);
     void insert(int idx, int val);
-    int const *const toArray();
+    int const *toArray();
 };
 /* 构造函数 初始化node的值 */
 MyLinkedList::MyLinkedList(int val) : firstNode(new Node(val)), lastNode(firstNode)
@@ -55,13 +55,13 @@ int MyLinkedList::size()
     return listSize;
 }
 /* 获取首节点 */
-Node const *const MyLinkedList::start()
+Node const *MyLinkedList::start()
 {
     return firstNode;
 }
 
 /* 获取最后一个节点 */
-Node const *const MyLinkedList::end()
+Node const *MyLinkedList::end()
 {
     return lastNode;
 }
@@ -190,7 +190,7 @@ int MyLinkedList::get(int idx)
 }
 
 /* 将列表转化为数组方便打印 */
-int const *const MyLinkedList::toArray()
+int const *MyLinkedList::toArray()
 {
     Node *node = firstNode;
     arr = new int[size()];
@@ -277,7 +277,8 @@ int main()
     std::cout << ml.get(2) << std::endl;
 
     /* 转化为数组并打印 */
-    int const *const arr = ml.toArray();
+    int const *arr = ml.toArray();
+
     for (int i = 0; i < ml.size(); i++)
     {
         /* code */
