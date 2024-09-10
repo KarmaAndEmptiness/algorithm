@@ -102,8 +102,6 @@ int MyLinkedList::remove(int idx)
     /* 找到目标节点的前一个节点 */
     while (count < idx - 1)
     {
-        if (target->next == nullptr)
-            return -1;
         target = target->next;
         count++;
     }
@@ -113,6 +111,10 @@ int MyLinkedList::remove(int idx)
     temp = target->next->next;
     delete target->next;
     target->next = temp;
+
+    /* 如果删除的元素是最后一个，那么需要更新lastNode */
+    if (idx == size() - 1)
+        lastNode = target;
     listSize--;
     return res;
 }
@@ -120,7 +122,7 @@ int MyLinkedList::remove(int idx)
 /* 插入节点(用索引指定位置) */
 void MyLinkedList::insert(int idx, int val)
 {
-    if (idx < 0 || idx >= size())
+    if (idx < 0 || idx > size())
         return;
     Node *target = start();
     Node *temp = new Node(val);
@@ -137,8 +139,6 @@ void MyLinkedList::insert(int idx, int val)
     /* 找到目标节点的前一个节点 */
     while (count < idx - 1)
     {
-        if (target->next == nullptr)
-            return;
         target = target->next;
         count++;
     }
@@ -147,6 +147,9 @@ void MyLinkedList::insert(int idx, int val)
     temp->next = target->next;
     target->next = temp;
 
+    /* 如果插入的位置是最后，那么需要将lastNode更新为插入的节点*/
+    if (idx == size())
+        lastNode = temp;
     listSize++;
 }
 
@@ -161,8 +164,6 @@ void MyLinkedList::set(int idx, int val)
     /* 找到目标节点 */
     while (count < idx)
     {
-        if (target->next == nullptr)
-            return;
         target = target->next;
         count++;
     }
@@ -182,8 +183,6 @@ int MyLinkedList::get(int idx)
     /* 找到目标节点 */
     while (count < idx)
     {
-        if (target->next == nullptr)
-            return -1;
         target = target->next;
         count++;
     }
@@ -214,7 +213,6 @@ int main()
         /* code */
         ml.push_back(i);
     }
-
     std::cout << "原列表:" << std::endl;
 
     /*用链表的方式遍历 */
@@ -231,6 +229,10 @@ int main()
 
     /* 将元素插入到索引为4的位置 */
     ml.insert(4, 30);
+
+    /* 将元素插入到最后*/
+    ml.insert(ml.size(), 50);
+
     std::cout << "插入元素后: " << std::endl;
     /*用链表的方式遍历 */
     temp = ml.start();
@@ -247,6 +249,9 @@ int main()
     /* 删除索引为0的元素*/
     ml.remove(0);
 
+    /* 删除最后一个元素 */
+    ml.remove(ml.size() - 1);
+
     std::cout << "删除后:" << std::endl;
     /*用链表的方式遍历 */
     temp = ml.start();
@@ -262,6 +267,9 @@ int main()
 
     /* 更新索引值为2的元素 */
     ml.set(2, 100);
+
+    /* 更新最后一个元素的值 */
+    ml.set(ml.size() - 1, 25);
 
     std::cout << "更新后:" << std::endl;
     /* 获取索引值为2的元素 */
