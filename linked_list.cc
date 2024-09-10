@@ -19,14 +19,14 @@ public:
     MyLinkedList(int val);
     ~MyLinkedList();
     int size();
-    Node *start();
-    Node *end();
+    Node const *const start();
+    Node const *const end();
     void push_back(int val);
     int remove(int idx);
     void set(int idx, int val);
     int get(int idx);
     void insert(int idx, int val);
-    int *toArray();
+    int const *const toArray();
 };
 /* 构造函数 初始化node的值 */
 MyLinkedList::MyLinkedList(int val) : firstNode(new Node(val)), lastNode(firstNode)
@@ -37,7 +37,7 @@ MyLinkedList::MyLinkedList(int val) : firstNode(new Node(val)), lastNode(firstNo
 MyLinkedList::~MyLinkedList()
 {
     Node *temp;
-    Node *node = start();
+    Node const *node = firstNode;
     while (node != nullptr)
     {
         /* code */
@@ -55,13 +55,13 @@ int MyLinkedList::size()
     return listSize;
 }
 /* 获取首节点 */
-Node *MyLinkedList::start()
+Node const *const MyLinkedList::start()
 {
     return firstNode;
 }
 
 /* 获取最后一个节点 */
-Node *MyLinkedList::end()
+Node const *const MyLinkedList::end()
 {
     return lastNode;
 }
@@ -69,7 +69,7 @@ Node *MyLinkedList::end()
 /* 增加元素 */
 void MyLinkedList::push_back(int val)
 {
-    Node *node = start();
+    Node *node = firstNode;
     Node *temp = new Node(val);
     if (end() != start())
     {
@@ -86,7 +86,7 @@ int MyLinkedList::remove(int idx)
 {
     if (idx < 0 || idx >= size())
         return -1;
-    Node *target = start();
+    Node *target = firstNode;
     Node *temp;
     int count = 0, res;
 
@@ -124,7 +124,7 @@ void MyLinkedList::insert(int idx, int val)
 {
     if (idx < 0 || idx > size())
         return;
-    Node *target = start();
+    Node *target = firstNode;
     Node *temp = new Node(val);
     int count = 0;
 
@@ -158,7 +158,7 @@ void MyLinkedList::set(int idx, int val)
 {
     if (idx < 0 || idx >= size())
         return;
-    Node *target = start();
+    Node *target = firstNode;
     int count = 0;
 
     /* 找到目标节点 */
@@ -177,7 +177,7 @@ int MyLinkedList::get(int idx)
 {
     if (idx < 0 || idx >= size())
         return -1;
-    Node *target = start();
+    Node *target = firstNode;
     int count = 0;
 
     /* 找到目标节点 */
@@ -190,9 +190,9 @@ int MyLinkedList::get(int idx)
 }
 
 /* 将列表转化为数组方便打印 */
-int *MyLinkedList::toArray()
+int const *const MyLinkedList::toArray()
 {
-    Node *node = start();
+    Node *node = firstNode;
     arr = new int[size()];
     int i = 0;
     while (node != nullptr)
@@ -216,7 +216,7 @@ int main()
     std::cout << "原列表:" << std::endl;
 
     /*用链表的方式遍历 */
-    Node *temp = ml.start();
+    Node const *temp = ml.start();
     while (true)
     {
         /* code */
@@ -272,11 +272,12 @@ int main()
     ml.set(ml.size() - 1, 25);
 
     std::cout << "更新后:" << std::endl;
+
     /* 获取索引值为2的元素 */
     std::cout << ml.get(2) << std::endl;
 
     /* 转化为数组并打印 */
-    int *arr = ml.toArray();
+    int const *const arr = ml.toArray();
     for (int i = 0; i < ml.size(); i++)
     {
         /* code */
