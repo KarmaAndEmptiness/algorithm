@@ -1,16 +1,16 @@
 #include <iostream>
-/* 基于环形数组实现队列 */
 class RingArrayQueue
 {
 private:
     /* data */
-    int *arr;               // 环形数组地址
-    int front = 0;          // 首元素的索引
-    int rear = 0;           // 元素插入处的索引
-    int queueSize = 0;      // 队列长度
-    int queueCapacity = 10; // 环形数组容量
+    int *arr;
+    int front;
+    // int rear=0;//用这种方式定义rear,调用push打印的时候size()有问题
+    int queueSize;
+    int queueCapacity;
+
 public:
-    RingArrayQueue();
+    RingArrayQueue(int capacity);
     ~RingArrayQueue();
     int size();
     int capacity();
@@ -20,79 +20,73 @@ public:
 };
 
 /* 构造函数 */
-RingArrayQueue::RingArrayQueue()
-    : arr(new int[queueCapacity])
+RingArrayQueue::RingArrayQueue(int capacity) : arr(new int[queueCapacity]), queueSize(0), front(0), queueCapacity(capacity)
 {
 }
 
+/* 析构函数 */
 RingArrayQueue::~RingArrayQueue()
 {
     delete[] arr;
 }
-
-/* 获取队列长度 */
+/* 获取列表长度 */
 int RingArrayQueue::size()
 {
     return queueSize;
 }
 
-/* 获取环形数组容量 */
+/* 获取列表长度 */
 int RingArrayQueue::capacity()
 {
     return queueCapacity;
 }
 
-/* 获取队首元素 */
-int RingArrayQueue::peek()
-{
-    // 队列为空
-    if (size() == 0)
-        return -1;
-    return arr[front];
-}
-
 /* 入队 */
 void RingArrayQueue::push(int val)
 {
-    /*因为是环形数组,所以如果队列满了,那么将会重置到索引为0处开始插入 */
     if (size() == capacity())
-    {
-        std::cout << "队列已满！" << std::endl;
-        rear = (front + size()) % capacity();
-    }
+        return;
+    // 用这种方式定义rear打印size()就没有问题
+    int rear = (front + size()) % capacity();
     arr[rear] = val;
-    rear++;
     queueSize++;
 }
 
 /* 出队 */
 int RingArrayQueue::pop()
 {
-    if (size() == 0)
-        return -1;
-    int res = peek();
-
-    /* 获取完最后一个元素后,重置索引到0*/
+    // if (queueSize == 0)
+    //     return -1;
+    int res = arr[front];
     front = (front + 1) % capacity();
     queueSize--;
     return res;
 }
-
 int main()
 {
-    RingArrayQueue raq;
-    int cap = raq.capacity() * 2;
+    RingArrayQueue raq(10);
+
+    int cap = raq.capacity();
     for (int i = 0; i < cap; i++)
     {
         /* code */
         raq.push(i);
     }
-    int size = raq.size();
+    int size = raq.size() - 3;
     for (int i = 0; i < size; i++)
     {
         /* code */
         std::cout << raq.pop() << " ";
     }
     std::cout << std::endl;
+    raq.push(100);
+    size = raq.size();
+    for (int i = 0; i < size; i++)
+    {
+        /* code */
+        std::cout << raq.pop() << " ";
+    }
+    std::cout << std::endl;
+
     return 0;
 }
