@@ -3,7 +3,7 @@ struct Node
 {
     int val;
     Node *next;
-    Node(int x) : val(x), next(nullptr) {};
+    Node(int x) : val(x), next(nullptr) {}
 };
 /* 基于单向链表实现列表 */
 class MyLinkedList
