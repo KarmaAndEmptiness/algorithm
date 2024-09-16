@@ -110,10 +110,17 @@ void HashMapOpenAddressing::extendCapacity()
     {
         if (temp[i] == nullptr || temp[i] == TOMBSTONE)
             continue;
-        /* 假设一个容量为3的数组：
+        /*
+        以下方式不可行，原因：
+        假设一个容量为3的数组：
            第一次key为2，第二次key为92，buckets[0]->key==92，buckets[2]->key==2
            调用remove(2)后，buckets[2]==TOMBSTONE
         */
+        // if(temp[i]==TOMBSTONE)
+        // {
+        // buckets[i]=TOMBSTONE;
+        // continue;
+        // }
         std::cout << "copy Pair!  key: " << temp[i]->key << " val: " << temp[i]->val << std::endl;
         put(temp[i]->key, temp[i]->val); // 重新插入到新的桶中
         delete temp[i];                  // 删除原桶中的元素
