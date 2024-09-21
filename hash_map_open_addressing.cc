@@ -132,8 +132,8 @@ void HashMapOpenAddressing::extendCapacity()
 int HashMapOpenAddressing::findBucket(int key)
 {
     int idx = hashFunc(key);
-    int firstTombstone = -1; // 记录第一个遇到的墓碑索引
-    while (buckets[idx] != nullptr)
+    int firstTombstone = -1, count = 0; // 记录第一个遇到的墓碑索引
+    while (buckets[idx] != nullptr && count < capacity())
     {
         if (buckets[idx]->key == key) // 找到匹配的键
         {
@@ -149,6 +149,7 @@ int HashMapOpenAddressing::findBucket(int key)
         if (buckets[idx] == TOMBSTONE && firstTombstone == -1)
             firstTombstone = idx;     // 记录第一个墓碑位置
         idx = (idx + 1) % capacity(); // 线性探测下一个桶
+        count++;
     }
     return firstTombstone == -1 ? idx : firstTombstone; // 返回空桶或墓碑索引
 }
@@ -201,16 +202,20 @@ void HashMapOpenAddressing::print()
 
 int main()
 {
-    HashMapOpenAddressing hmoa(5); // 初始化容量为5的哈希表
+    HashMapOpenAddressing hmoa(4); // 初始化容量为4的哈希表
     int cap = hmoa.capacity();
+
+    /* 构造一个全是墓碑的数组 */
     for (int i = 0; i < cap; i++)
-        hmoa.put(i, i); // 插入初始键值对
-    hmoa.remove(2);     // 删除键为2的键值对
-    hmoa.put(10, 10);   // 插入新的键值对
-    hmoa.put(9, 9);
-    hmoa.put(11, 11); // 扩展容量时重新分配元素
-    std::cout << "capacity: " << hmoa.capacity() << " size: " << hmoa.size() << std::endl;
-    hmoa.print();                           // 打印哈希表内容
-    std::cout << hmoa.get(10) << std::endl; // 输出键10对应的值
+    {
+        /* code */
+        hmoa.put(i, i);
+        hmoa.remove(i);
+    }
+    std::cout << "capacity: " << hmoa.capacity() << std::endl;
+    hmoa.put(0, 0);
+    hmoa.put(4, 4);
+    hmoa.print();
+    std::cout << "capacity: " << hmoa.capacity() << std::endl;
     return 0;
 }
