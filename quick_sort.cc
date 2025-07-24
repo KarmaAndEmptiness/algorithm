@@ -1,43 +1,37 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-void swap(vector<int>::value_type &a, vector<int>::value_type &b)
+int partition(vector<int> &arr, int left, int right)
 {
-  vector<int>::value_type tmp;
-  tmp = a;
-  a = b;
-  b = tmp;
-}
-int partition(vector<int> &arr, size_t left, size_t right)
-{
-  int i = left, j = -1; 
-  while (i < right)
+  int i = left, j = right;
+  while (i < j)
   {
-    if (arr[i] < arr[right])
+    while (i < j && arr[j] >= arr[left])
     {
-      swap(arr[i],arr[++j]);
+      j--;
     }
-    i++;
+    while (i < j && arr[i] <= arr[left])
+    {
+      i++;
+    }
+    swap(arr[i], arr[j]);
   }
-  swap(arr[right], arr[++j]);
-  return j;
+  swap(arr[left], arr[i]);
+  return i;
 }
-void quick_sort(vector<int> &arr, size_t left, size_t right)
+void quick_sort(vector<int> &arr, int left, int right)
 {
-  if(left >= right)
-    return ;
-  size_t pivot = partition(arr, left, right);
-
-  if (pivot <= 0 || pivot >= arr.size() - 1)
+  if (left >= right)
     return;
+  int pivot = partition(arr, left, right);
   quick_sort(arr, left, pivot - 1);
   quick_sort(arr, pivot + 1, right);
 }
 int main()
 {
-  vector<int> arr = {3, 2, 1, 5, 4};
+  vector<int> arr = {3, 2, 1, 4, 5};
   quick_sort(arr, 0, arr.size() - 1);
-  for (vector<int>::value_type item : arr)
+  for (int item : arr)
   {
     cout << item << " ";
   }
