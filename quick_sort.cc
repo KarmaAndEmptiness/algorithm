@@ -1,40 +1,53 @@
 #include <iostream>
 #include <vector>
-using namespace std;
-int partition(vector<int> &arr, int left, int right)
+int median_three(std::vector<int> &nums, int left, int mid, int right)
 {
-  int i = left, j = right;
+  int l = left, r = right, m = mid;
+  if ((m > l && r > m) || (m > r && l > m))
+  {
+    return m;
+  }
+  if ((l > m && r > l) || (l > r && m > l))
+  {
+    return l;
+  }
+  return r;
+}
+int partition(std::vector<int> &nums, int left, int right)
+{
+  int i = left, j = right, med = median_three(nums, left, (left + right) / 2, right);
+  std::swap(nums[left], nums[med]);
   while (i < j)
   {
-    while (i < j && arr[j] >= arr[left])
+    while (i < j && nums[j] >= nums[left])
     {
       j--;
     }
-    while (i < j && arr[i] <= arr[left])
+    while (i < j && nums[i] <= nums[left])
     {
       i++;
     }
-    swap(arr[i], arr[j]);
+    std::swap(nums[i], nums[j]);
   }
-  swap(arr[left], arr[i]);
+  std::swap(nums[left], nums[i]);
   return i;
 }
-void quick_sort(vector<int> &arr, int left, int right)
+void quick_sort(std::vector<int> &nums, int left, int right)
 {
   if (left >= right)
     return;
-  int pivot = partition(arr, left, right);
-  quick_sort(arr, left, pivot - 1);
-  quick_sort(arr, pivot + 1, right);
+  int pivot = partition(nums, left, right);
+  quick_sort(nums, left, pivot - 1);
+  quick_sort(nums, pivot + 1, right);
 }
 int main()
 {
-  vector<int> arr = {3, 2, 1, 4, 5};
-  quick_sort(arr, 0, arr.size() - 1);
-  for (int item : arr)
+  std::vector<int> nums = {3, 2, 1, 4, 5};
+  quick_sort(nums, 0, nums.size() - 1);
+  for (int item : nums)
   {
-    cout << item << " ";
+    std::cout << item << " ";
   }
-  cout << endl;
+  std::cout << std::endl;
   return 0;
 }
