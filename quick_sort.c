@@ -1,12 +1,12 @@
 #include <stdio.h>
-int median_three(int arr[], int left, int mid, int right)
+int median_three(int left, int mid, int right)
 {
-  int l = arr[left], m = arr[mid], r = arr[right];
-  if ((m > l && r > m) || (m > r && l > m))
+  int l = left, m = mid, r = right;
+  if ((l < m && m < r) || (r < m && m < l))
   {
     return mid;
   }
-  if ((l > m && r > l) || (l > r && m > l))
+  if ((m < l && l < r) || (r < l && l < m))
   {
     return left;
   }
@@ -14,46 +14,46 @@ int median_three(int arr[], int left, int mid, int right)
 }
 void swap(int *a, int *b)
 {
-  int tmp = 0;
-  tmp = *a;
+  int tmp = *a;
   *a = *b;
   *b = tmp;
 }
-int partition(int arr[], int left, int right)
+int partition(int nums[], int left, int right)
 {
-  int mid = median_three(arr, left, (left + right) / 2, right), pivot = arr[mid], i = left, j = right;
-  swap(&arr[left], &arr[mid]);
+  int i = left, j = right, med = median_three(left, (left + right) / 2, right);
+  swap(&nums[left], &nums[med]);
   while (i < j)
   {
-    while (i < j && arr[j] >= pivot)
+    while (i < j && nums[j] >= nums[left])
     {
       j--;
     }
-    while (i < j && arr[i] <= pivot)
+    while (i < j && nums[i] <= nums[left])
     {
       i++;
     }
-    swap(&arr[i], &arr[j]);
+    swap(&nums[i], &nums[j]);
   }
-  swap(&arr[left], &arr[i]);
+  swap(&nums[left], &nums[i]);
   return i;
 }
-void quick_sort(int arr[], int left, int right)
+void quick_sort(int nums[], int left, int right)
 {
   if (left >= right)
+  {
     return;
-  int pivot = partition(arr, left, right);
-  quick_sort(arr, left, pivot - 1);
-  quick_sort(arr, pivot + 1, right);
+  }
+  int pivot = partition(nums, left, right);
+  quick_sort(nums, left, pivot - 1);
+  quick_sort(nums, pivot + 1, right);
 }
 int main()
 {
-  int arr[] = {3, 2, 1, 4, 5};
-  int len = sizeof arr / sizeof arr[0];
-  quick_sort(arr, 0, len - 1);
+  int nums[] = {3, 2, 1, 4, 5}, len = sizeof nums / sizeof nums[0];
+  quick_sort(nums, 0, len - 1);
   for (int i = 0; i < len; i++)
   {
-    printf("%d ", arr[i]);
+    printf("%d ", nums[i]);
   }
   printf("\n");
   return 0;
