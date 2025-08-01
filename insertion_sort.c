@@ -1,7 +1,7 @@
 #include <stdio.h>
 void insertion_sort(int nums[], int len)
 {
-  if (len <= 0)
+  if (len < 1)
   {
     return;
   }
@@ -18,7 +18,7 @@ void insertion_sort(int nums[], int len)
 }
 int main()
 {
-  int nums[] = {3, 2, 1, 4, 5}, len = sizeof nums / sizeof nums[0];
+  int nums[] = {3, 1, 5, 4, 2}, len = sizeof nums / sizeof nums[0];
   insertion_sort(nums, len);
   for (int i = 0; i < len; i++)
   {

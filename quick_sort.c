@@ -1,34 +1,34 @@
 #include <stdio.h>
-int median_three(int left, int mid, int right)
-{
-  int l = left, m = mid, r = right;
-  if ((l < m && m < r) || (r < m && m < l))
-  {
-    return mid;
-  }
-  if ((m < l && l < r) || (r < l && l < m))
-  {
-    return left;
-  }
-  return right;
-}
 void swap(int *a, int *b)
 {
   int tmp = *a;
   *a = *b;
   *b = tmp;
 }
+int median_three(int nums[], int left, int mid, int right)
+{
+  int l = left, r = right, m = mid;
+  if ((l < m && m < r) || (r < m && m < l))
+  {
+    return mid;
+  }
+  if ((r < l && l < m) || (m < l && l < r))
+  {
+    return left;
+  }
+  return right;
+}
 int partition(int nums[], int left, int right)
 {
-  int i = left, j = right, med = median_three(left, (left + right) / 2, right);
+  int i = left, j = right, med = median_three(nums, left, (left + right) / 2, right);
   swap(&nums[left], &nums[med]);
   while (i < j)
   {
-    while (i < j && nums[j] >= nums[left])
+    while (i < j && nums[j] <= nums[left])
     {
       j--;
     }
-    while (i < j && nums[i] <= nums[left])
+    while (i < j && nums[i] >= nums[left])
     {
       i++;
     }
@@ -49,7 +49,7 @@ void quick_sort(int nums[], int left, int right)
 }
 int main()
 {
-  int nums[] = {3, 2, 1, 4, 5}, len = sizeof nums / sizeof nums[0];
+  int nums[] = {3, 1, 5, 4, 2}, len = sizeof nums / sizeof nums[0];
   quick_sort(nums, 0, len - 1);
   for (int i = 0; i < len; i++)
   {
