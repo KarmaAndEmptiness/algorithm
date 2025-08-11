@@ -26,7 +26,7 @@ void selection_sort(int nums[], int len)
 }
 int main()
 {
-  int nums[] = {3, 1, 5, 4, 2}, len = sizeof nums / sizeof nums[0];
+  int nums[] = {3, 2, 1, 4, 5}, len = sizeof nums / sizeof nums[0];
   selection_sort(nums, len);
   for (int i = 0; i < len; i++)
   {

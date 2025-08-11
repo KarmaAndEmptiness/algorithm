@@ -1,31 +1,28 @@
 #include <iostream>
 #include <vector>
-using namespace std;
-void selection_sort(vector<int> &arr)
+void selection_sort(std::vector<int> &nums)
 {
-  for (size_t i = 0; i < arr.size() - 1; i++)
+  for (size_t i = 0; i < nums.size() - 1; i++)
   {
-    int k = i, tmp = 0;
-    for (size_t j = i + 1; j < arr.size(); j++)
+    size_t ma = i;
+    for (int j = i + 1; j < nums.size(); j++)
     {
-      if (arr[j] < arr[k])
+      if (nums[j] > nums[ma])
       {
-        k = j;
+        ma = j;
       }
     }
-    tmp = arr[i];
-    arr[i] = arr[k];
-    arr[k] = tmp;
+    std::swap(nums[i], nums[ma]);
   }
 }
 int main()
 {
-  vector<int> arr = {3, 2, 1, 4, 5};
-  selection_sort(arr);
-  for (vector<int>::value_type item : arr)
+  std::vector<int> nums = {3, 2, 4, 1, 5};
+  selection_sort(nums);
+  for (const int &item : nums)
   {
-    cout << item << " ";
+    std::cout << item << " ";
   }
-  cout << endl;
+  std::cout << std::endl;
   return 0;
 }
