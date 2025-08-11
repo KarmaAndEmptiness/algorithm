@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
-void merge(std::vector<int> &nums, int left, int mid, int right)
+void merge(std::vector<int> &nums, size_t left, size_t mid, size_t right)
 {
-  int i = left, j = mid + 1, k = 0;
+  size_t i = left, j = mid + 1, k = 0;
   std::vector<int> tmp(right - left + 1);
   while (i <= mid && j <= right)
   {
@@ -23,25 +23,27 @@ void merge(std::vector<int> &nums, int left, int mid, int right)
   {
     tmp[k++] = nums[j++];
   }
-  for (k = 0; k < tmp.size(); k++)
+  for (size_t k = 0; k < tmp.size(); k++)
   {
     nums[left + k] = tmp[k];
   }
 }
-void merge_sort(std::vector<int> &nums, int left, int right)
+void merge_sort(std::vector<int> &nums, size_t left, size_t right)
 {
   if (left >= right)
+  {
     return;
-  int mid = (left + right) / 2;
+  }
+  size_t mid = (left + right) / 2;
   merge_sort(nums, left, mid);
   merge_sort(nums, mid + 1, right);
   merge(nums, left, mid, right);
 }
 int main()
 {
-  std::vector<int> nums = {3, 2, 1, 4, 5};
+  std::vector<int> nums = {3, 2, 4, 1, 5};
   merge_sort(nums, 0, nums.size() - 1);
-  for (int item : nums)
+  for (const int &item : nums)
   {
     std::cout << item << " ";
   }
