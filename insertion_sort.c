@@ -1,14 +1,14 @@
 #include <stdio.h>
 void insertion_sort(int nums[], int len)
 {
-  if (len < 1)
+  if (len < 2)
   {
     return;
   }
-  for (int i = 1; i < len; i++)
+  for (size_t i = 0; i < len; i++)
   {
-    int base = nums[i], j = i - 1;
-    while (j >= 0 && nums[j] > base)
+    int base = nums[i + 1], j = i;
+    while (j <= i && nums[j] > base)
     {
       nums[j + 1] = nums[j];
       j--;
@@ -18,9 +18,9 @@ void insertion_sort(int nums[], int len)
 }
 int main()
 {
-  int nums[] = {3, 1, 5, 4, 2}, len = sizeof nums / sizeof nums[0];
+  int nums[] = {3, 1, 2, 4, 5}, len = sizeof nums / sizeof nums[0];
   insertion_sort(nums, len);
-  for (int i = 0; i < len; i++)
+  for (size_t i = 0; i < len; i++)
   {
     printf("%d ", nums[i]);
   }

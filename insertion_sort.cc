@@ -1,27 +1,30 @@
 #include <iostream>
 #include <vector>
-using namespace std;
-void insertion_sort(vector<int> &arr)
+void insertion_sort(std::vector<int> &nums)
 {
-  for (size_t i = 1; i < arr.size(); i++)
+  if (nums.size() < 2)
   {
-    int base = arr[i], j = i - 1;
-    while (arr[j] >= 0 && arr[j] > base)
+    return;
+  }
+  for (size_t i = 1; i < nums.size(); i++)
+  {
+    int base = nums[i], j = i - 1;
+    while (j < i && nums[j] > base)
     {
-      arr[j + 1] = arr[j];
+      nums[j + 1] = nums[j];
       j--;
     }
-    arr[j + 1] = base;
+    nums[j + 1] = base;
   }
 }
 int main()
 {
-  vector<int> arr = {3,2,1,4,5};
-  insertion_sort(arr);
-  for (vector<int>::value_type item : arr)
+  std::vector<int> nums = {3, 2, 4, 1, 5};
+  insertion_sort(nums);
+  for (const int &item : nums)
   {
-    cout << item << " ";
+    std::cout << item << " ";
   }
-  cout << endl;
+  std::cout << std::endl;
   return 0;
 }
