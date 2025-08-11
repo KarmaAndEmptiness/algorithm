@@ -1,30 +1,32 @@
 #include <iostream>
 #include <vector>
-using namespace std;
-void bubble_sort(vector<int> &arr)
+void bubble_sort(std::vector<int> &nums)
 {
-  for (size_t i = arr.size() - 1; i > 0; i--)
+  for (size_t i = nums.size() - 1; i > 0; i--)
   {
+    bool flag = false;
     for (size_t j = 0; j < i; j++)
     {
-      if (arr[j] > arr[j + 1])
+      if (nums[j] > nums[j + 1])
       {
-        int tmp = 0;
-        tmp = arr[j + 1];
-        arr[j + 1] = arr[j];
-        arr[j] = tmp;
+        std::swap(nums[j], nums[j + 1]);
+        flag = true;
       }
+    }
+    if (!flag)
+    {
+      break;
     }
   }
 }
 int main()
 {
-  vector<int> arr = {3, 2, 4, 1, 6};
-  bubble_sort(arr);
-  for (vector<int>::value_type item : arr)
+  std::vector<int> nums = {3, 1, 2, 4, 5};
+  bubble_sort(nums);
+  for (const int &item : nums)
   {
-    cout << item << " ";
+    std::cout << item << " ";
   }
-  cout << endl;
+  std::cout << std::endl;
   return 0;
 }
